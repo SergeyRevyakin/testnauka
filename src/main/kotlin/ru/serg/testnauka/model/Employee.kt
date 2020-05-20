@@ -17,10 +17,10 @@ data class Employee(
         val idNumber: Long,
         val address: String,
 
-        @ManyToOne(fetch = FetchType.LAZY)
+        @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "department_id")
         @JsonIgnore
-        val department: Department? = null
+        var department: Department? = null
 
 ) {
     @JsonProperty("departmentId")

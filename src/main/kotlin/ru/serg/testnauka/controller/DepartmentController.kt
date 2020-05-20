@@ -8,10 +8,11 @@ import ru.serg.testnauka.dao.DepartmentsRepository
 import ru.serg.testnauka.dao.EmployeeRepository
 import ru.serg.testnauka.model.Department
 import ru.serg.testnauka.model.Employee
+import java.util.*
 
 @RestController
-//@RequestMapping("/test")
-class RestController {
+@RequestMapping("/department/")
+class DepartmentController {
 
     @Autowired
     lateinit var departmentsRepository: DepartmentsRepository
@@ -22,6 +23,43 @@ class RestController {
     @Autowired
     lateinit var calendarCodesRepository: CalendarCodesRepository
 
+    @GetMapping("/id={id}")
+    fun getDepartmentById(@PathVariable id: Int): Optional<Department> {
+        return departmentsRepository.findById(id)
+    }
+
+    @GetMapping("/name={name}")
+    fun getDepartmentByName(@PathVariable name: String): Optional<Department> {
+        return departmentsRepository.findByName(name)
+    }
+
+    @GetMapping("/all")
+    fun getDepartments(): List<Department> {
+        return departmentsRepository.findAll()
+    }
+
+    @PostMapping("/post")
+    fun postDepartment(@RequestBody department: Department) {
+        val employees = department.employee
+        employees.forEach { it.department = department }
+
+        departmentsRepository.save(department)
+        employeeRepository.saveAll(employees)
+    }
+
+    @DeleteMapping("/del={id}")
+    fun deleteDepartment(@PathVariable id: Int) {
+        departmentsRepository.deleteById(id)
+    }
+
+    @PutMapping("/")
+    fun putDepartment(@RequestBody department: Department) {
+
+        departmentsRepository.save(department)
+    }
+
+
+    //Test Methods
     @RequestMapping("/save/")
     fun save() {
 
@@ -64,36 +102,5 @@ class RestController {
 
     @RequestMapping("/tr")
     fun tr() = departmentsRepository.findById(203).get().employee
-
-
-//    @RequestMapping("/")
-//    fun start(): String {
-//        return "HELLO"
-//    }
-//
-//    @RequestMapping("/department/{id}")
-//    fun getDepartmentById(@PathVariable id: Int): Optional<Department> {
-//        return departmentsRepository.findById(id)
-//    }
-//
-//    @GetMapping("/departments")
-//    fun getDepartments(): List<Department> {
-//        return departmentsRepository.findAll()
-//    }
-//
-//    @PostMapping("/department")
-//    fun postDepartment(@RequestBody department: Department) {
-//        departmentsRepository.save(department)
-//    }
-//
-//    @DeleteMapping("/department/{id}")
-//    fun deleteDepartment(@PathVariable id: Int) {
-//        departmentsRepository.deleteById(id)
-//    }
-//
-//    @PutMapping("/department")
-//    fun putDepartment(@RequestBody department: Department) {
-//        departmentsRepository.save(department)
-//    }
 
 }

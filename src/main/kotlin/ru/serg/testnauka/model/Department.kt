@@ -14,7 +14,7 @@ data class Department(
 
         val location: String?,
 
-        @OneToMany(mappedBy = "department", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "department", cascade = [CascadeType.MERGE], fetch = FetchType.EAGER) //cascade = [CascadeType.ALL],
 //        @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 //        @JsonIdentityReference(alwaysAsId = true)
         //@JoinColumn(name = "department_id")
