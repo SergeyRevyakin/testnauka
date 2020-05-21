@@ -5,24 +5,36 @@ import javax.persistence.*
 
 
 @Entity
-//@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator::class, property="id")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator::class,
+                property = "id")
 //@JsonIdentityReference(alwaysAsId = true)
 data class Employee(
-        //@JsonIgnore
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int?=0,
+        val id: Int? = 0,
 
         val name: String?,
-        val idNumber: Long,
-        val address: String,
+        val idNumber: Long?,
+        val address: String?,
 
-        @ManyToOne(fetch = FetchType.EAGER)
+        @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE])
         @JoinColumn(name = "department_id")
-        @JsonIgnore
+        //@JsonBackReference
+        //@JsonIgnore
+        @JsonIdentityReference(alwaysAsId = true)
         var department: Department? = null
 
+        //@JsonProperty("depId")
+//        @Transient
+//        var depId: Int? = department?.id
+
 ) {
-    @JsonProperty("departmentId")
-    fun getDepartmentId()=department?.id
+
+//    @JsonProperty("departmentId")
+//    fun getDepartmentId()=department?.id
+//
+//    fun setDepartmentId(depId:Int) {
+//        departmentId = depId
+//    }
 }

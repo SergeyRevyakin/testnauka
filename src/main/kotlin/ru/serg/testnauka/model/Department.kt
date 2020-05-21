@@ -7,14 +7,16 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators
 import javax.persistence.*
 
 @Entity
-//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator::class, property="@depId")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator::class,
+                property = "id")
 data class Department(
 
         val name: String?,
 
         val location: String?,
 
-        @OneToMany(mappedBy = "department", cascade = [CascadeType.MERGE], fetch = FetchType.EAGER) //cascade = [CascadeType.ALL],
+        @OneToMany(mappedBy = "department", cascade = [CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE], fetch = FetchType.EAGER) //cascade = [CascadeType.ALL],
 //        @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 //        @JsonIdentityReference(alwaysAsId = true)
         //@JoinColumn(name = "department_id")
@@ -24,8 +26,4 @@ data class Department(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int = 0
-){
-        override fun toString(): String {
-                return "{name: ${name}, location: ${location}, employees: ${employee.map { it.name }}. id: ${id}}"
-        }
-}
+)

@@ -2,17 +2,18 @@ package ru.serg.testnauka
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import ru.serg.testnauka.dao.BusinessCalendarRepository
 import ru.serg.testnauka.dao.CalendarCodesRepository
 
 import ru.serg.testnauka.dao.DepartmentsRepository
 import ru.serg.testnauka.dao.EmployeeRepository
+import ru.serg.testnauka.model.BusinessCalendar
 import ru.serg.testnauka.model.CalendarCode
 import ru.serg.testnauka.model.Department
 import ru.serg.testnauka.model.Employee
-import java.awt.print.Book
+import java.time.LocalDate
 
 
 @SpringBootApplication
@@ -25,6 +26,9 @@ class TestNaukaApplication : CommandLineRunner {
 
     @Autowired
     lateinit var calendarCodesRepository: CalendarCodesRepository
+
+    @Autowired
+    lateinit var businessCalendarRepository: BusinessCalendarRepository
 
     override fun run(vararg args: String?) {
         fillDatabase()
@@ -72,6 +76,17 @@ class TestNaukaApplication : CommandLineRunner {
             calendarCodesRepository.save(CalendarCode(it.split(" – ").first(), it.split(" – ").last()))
         }
 
+        val calendarCode = calendarCodesRepository.findAll()
+
+        val employeeList = employeeRepository.findAll()
+
+        val businessCalendarList: MutableList<BusinessCalendar> = mutableListOf()
+
+        employeeList.forEach {
+            businessCalendarList.add(BusinessCalendar(LocalDate.now(), it, calendarCode.random()))
+        }
+
+        businessCalendarRepository.saveAll(businessCalendarList)
     }
 
 }
