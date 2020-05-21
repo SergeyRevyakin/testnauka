@@ -1,13 +1,13 @@
 package ru.serg.testnauka.model
 
-import com.fasterxml.jackson.annotation.*
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import javax.persistence.*
 
 
 @Entity
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator::class,
-                property = "id")
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator::class,
+//                property = "id")
 //@JsonIdentityReference(alwaysAsId = true)
 data class Employee(
         @Id
@@ -22,12 +22,12 @@ data class Employee(
         @JoinColumn(name = "department_id")
         //@JsonBackReference
         //@JsonIgnore
-        @JsonIdentityReference(alwaysAsId = true)
-        var department: Department? = null
+        @JsonIgnoreProperties("employee")
+        var department: Department? = null,
 
-        //@JsonProperty("depId")
-//        @Transient
-//        var depId: Int? = department?.id
+        @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, cascade = [CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE])
+        @JsonIgnoreProperties("employee")
+        val businessCalendar: MutableList<BusinessCalendar>?= mutableListOf()
 
 ) {
 

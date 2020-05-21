@@ -1,16 +1,16 @@
 package ru.serg.testnauka.model
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo
-import com.fasterxml.jackson.annotation.JsonIdentityReference
-import com.fasterxml.jackson.annotation.JsonManagedReference
-import com.fasterxml.jackson.annotation.ObjectIdGenerators
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import javax.persistence.*
 
 @Entity
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator::class,
-                property = "id")
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator::class,
+//                property = "id")
 data class Department(
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Int? = 0,
 
         val name: String?,
 
@@ -21,9 +21,7 @@ data class Department(
 //        @JsonIdentityReference(alwaysAsId = true)
         //@JoinColumn(name = "department_id")
         //@JsonManagedReference
-        val employee: List<Employee> = emptyList(),
+        @JsonIgnoreProperties("employee")
+        val employee: List<Employee> = emptyList()
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int = 0
 )

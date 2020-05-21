@@ -35,7 +35,7 @@ class TestNaukaApplication : CommandLineRunner {
     }
 
     fun fillDatabase() {
-        val newDept = Department("Boss", "Home")
+        val newDept = Department(name = "Boss", location = "Home")
 
         departmentsRepository.save(newDept)
 
@@ -83,7 +83,11 @@ class TestNaukaApplication : CommandLineRunner {
         val businessCalendarList: MutableList<BusinessCalendar> = mutableListOf()
 
         employeeList.forEach {
-            businessCalendarList.add(BusinessCalendar(LocalDate.now(), it, calendarCode.random()))
+            businessCalendarList.add(BusinessCalendar(date = LocalDate.now(), code = calendarCode.random(), employee = it))
+            businessCalendarList.add(BusinessCalendar(date = LocalDate.now().minusDays(1), code = calendarCode.random(), employee = it))
+            businessCalendarList.add(BusinessCalendar(date = LocalDate.now().minusDays(2), code = calendarCode.random(), employee = it))
+            businessCalendarList.add(BusinessCalendar(date = LocalDate.now().minusDays(3), code = calendarCode.random(), employee = it))
+
         }
 
         businessCalendarRepository.saveAll(businessCalendarList)

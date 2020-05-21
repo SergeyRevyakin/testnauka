@@ -30,10 +30,10 @@ class EmployeeController {
 
     @PostMapping
     fun postEmployee(@RequestBody employee: Employee){
-//        if (employee.depId!=null ){
-//            val department = departmentsRepository.findById(employee.depId!!).get()
-//            employee.department = department
-//        }
+        if (employee.department?.id !=null ){
+            val department = departmentsRepository.findById(employee.department!!.id!!).get()
+            employee.department = department
+        }
         employeeRepository.save(employee)
     }
 }
