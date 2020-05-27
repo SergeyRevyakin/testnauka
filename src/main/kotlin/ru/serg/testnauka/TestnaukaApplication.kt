@@ -35,28 +35,37 @@ class TestNaukaApplication : CommandLineRunner {
     }
 
     fun fillDatabase() {
-        val newDept = Department(name = "Boss", location = "Home")
+        var newDept = Department(name = "Boss", location = "Home")
 
         departmentsRepository.save(newDept)
 
+        newDept = departmentsRepository.findByName("Boss").get()
+
         val emp1 = Employee(name = "Serg", idNumber = 1234567L, address = "HOUSE", department = newDept)
-        val emp2 = Employee(name = "Max", idNumber = 1234567L, address = "Home", department = newDept)
+        val emp2 = Employee(name = "Max", idNumber = 666111222L, address = "Home", department = newDept)
 
         employeeRepository.saveAll(setOf(emp1, emp2))
 
         val department = departmentsRepository.findById(101).get()
 
-        val emp3 = Employee(name = "Alex", idNumber = 1234567L, address = "Dome", department = department)
-        val emp4 = Employee(name = "Dax", idNumber = 1234567L, address = "Dom", department = department)
+        val emp3 = Employee(name = "Alex", idNumber = 444111555L, address = "Dome", department = department)
+        val emp4 = Employee(name = "Dax", idNumber = 333111111L, address = "Dom", department = department)
 
         employeeRepository.saveAll(setOf(emp3, emp4))
 
         val department2 = departmentsRepository.findById(102).get()
 
-        val emp5 = Employee(name = "German", idNumber = 1234567L, address = "Germany", department = department2)
-        val emp6 = Employee(name = "Belg", idNumber = 1234567L, address = "Belgium", department = department2)
+        val emp5 = Employee(name = "German", idNumber = 222222222L, address = "Germany", department = department2)
+        val emp6 = Employee(name = "Belg", idNumber = 111111111L, address = "Belgium", department = department2)
 
         employeeRepository.saveAll(setOf(emp5, emp6))
+
+        val department3 = departmentsRepository.findById(103).get()
+
+        val emp7 = Employee(name = "Vasya", idNumber = 333333333L, address = "Work", department = department3)
+        val emp8 = Employee(name = "Petya", idNumber = 111222333L, address = "Flat", department = department3)
+
+        employeeRepository.saveAll(setOf(emp7, emp8))
 
         val codes = listOf("Я – полный рабочий день",
                 "Н – отсутствие на рабочем месте по невыясненным причинам",

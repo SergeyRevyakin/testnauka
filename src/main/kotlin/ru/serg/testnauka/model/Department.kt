@@ -16,11 +16,9 @@ data class Department(
 
         val location: String?,
 
-        @OneToMany(mappedBy = "department", cascade = [CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE], fetch = FetchType.EAGER) //cascade = [CascadeType.ALL],
-//        @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-//        @JsonIdentityReference(alwaysAsId = true)
-        //@JoinColumn(name = "department_id")
-        //@JsonManagedReference
+        @OneToMany(mappedBy = "department",
+                cascade = [CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH],
+                fetch = FetchType.EAGER)
         @JsonIgnoreProperties("employee")
         val employee: List<Employee> = emptyList()
 

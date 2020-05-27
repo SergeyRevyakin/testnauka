@@ -14,9 +14,9 @@ data class BusinessCalendar(
         val date: LocalDate? = LocalDate.now(),
 
         @OneToOne
-        val code: CalendarCode,
+        val code: CalendarCode?,
 
-        @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE])
+        @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])//, CascadeType.MERGE, CascadeType.REMOVE])
         @JoinColumn(name = "employee_id")
         @JsonIgnoreProperties("businessCalendar")
         val employee: Employee

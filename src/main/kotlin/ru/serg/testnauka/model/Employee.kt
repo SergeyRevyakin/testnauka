@@ -18,23 +18,15 @@ data class Employee(
         val idNumber: Long?,
         val address: String?,
 
-        @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE])
+        @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JoinColumn(name = "department_id")
         //@JsonBackReference
         //@JsonIgnore
         @JsonIgnoreProperties("employee")
         var department: Department? = null,
 
-        @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, cascade = [CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE])
+        @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JsonIgnoreProperties("employee")
         val businessCalendar: MutableList<BusinessCalendar>?= mutableListOf()
 
-) {
-
-//    @JsonProperty("departmentId")
-//    fun getDepartmentId()=department?.id
-//
-//    fun setDepartmentId(depId:Int) {
-//        departmentId = depId
-//    }
-}
+)

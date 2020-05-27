@@ -35,13 +35,6 @@ class DepartmentController {
     @PostMapping("/post")
     fun postDepartment(@RequestBody department: Department) {
         departmentsRepository.save(department)
-        val employees = department.employee
-        employees.forEach {
-            it.department = department
-            //it.depId = department.id
-        }
-
-        employeeRepository.saveAll(employees)
     }
 
     @DeleteMapping("/del={id}")
@@ -49,55 +42,9 @@ class DepartmentController {
         departmentsRepository.deleteById(id)
     }
 
-    @PutMapping("/")
+    @PutMapping("/put")
     fun putDepartment(@RequestBody department: Department) {
 
         departmentsRepository.save(department)
     }
 }
-//
-//    //Test Methods
-//    @RequestMapping("/save/")
-//    fun save() {
-//
-//        val newDept = Department("Boss", "Home")
-//
-//        departmentsRepository.save(newDept)
-//
-//        val emp1 = Employee(name = "Serg", idNumber = 1234567L, address = "HOUSE", department = newDept)
-//        val emp2 = Employee(name = "Sadfadfrg", idNumber = 1234567L, address = "HOUSE", department = newDept)
-//
-//        employeeRepository.saveAll(setOf(emp1, emp2))
-//
-//        val department = departmentsRepository.findById(101).get()
-//
-//        val emp3 = Employee(name = "Ssfdhsg", idNumber = 1234567L, address = "HOUSE", department = department)
-//        val emp4 = Employee(name = "Fdf", idNumber = 1234567L, address = "HOUSE", department = department)
-//
-//        employeeRepository.saveAll(setOf(emp3, emp4))
-//
-//        val department2 = departmentsRepository.findById(102).get()
-//
-//        val emp5 = Employee(name = "Fsferg", idNumber = 1234567L, address = "HOUSE", department = department2)
-//        val emp6 = Employee(name = "1erg", idNumber = 1234567L, address = "HOUSE", department = department2)
-//
-//        employeeRepository.saveAll(setOf(emp5, emp6))
-//
-//    }
-//
-//    @RequestMapping("/101")
-//    fun test() = departmentsRepository.findById(101).get().toString()
-//
-//    @RequestMapping("/102")
-//    fun test1() = departmentsRepository.findById(102)
-//
-//    @RequestMapping("/deps")
-//    fun deps() = departmentsRepository.findAll()
-//
-//    @RequestMapping("/emps")
-//    fun emps() = employeeRepository.findAll()
-//
-//    @RequestMapping("/tr")
-//    fun tr() = departmentsRepository.findById(203).get().employee
-//
-//}
